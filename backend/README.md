@@ -1,0 +1,4 @@
+# Academy API development branch
+Not deployed. Never commit real credentials. Install dependencies, apply schema.sql to a private PostgreSQL instance, configure environment, run npm test and npm start. HTTPS required at deployment.
+Implemented starter routes: guardian registration/login/logout, student ownership, practice storage, account deletion. Scores are client-reported and must not be used for certified assessments.
+Release blockers: verify adult consent and email ownership, password reset, stronger rate limits and abuse protection, privacy/legal review for children, monitoring and backups, integration tests, frontend connection, AI provider and child-safe tutoring review, payment provider, curriculum review and complete localization. No payment or AI calls are enabled. This is not a production-ready service.
