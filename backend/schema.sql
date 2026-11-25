@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS guardians (id uuid PRIMARY KEY, email text UNIQUE NOT NULL, password_hash text NOT NULL, created_at timestamptz DEFAULT now());
+CREATE TABLE IF NOT EXISTS sessions (token_hash text PRIMARY KEY, guardian_id uuid NOT NULL REFERENCES guardians(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL);
+CREATE TABLE IF NOT EXISTS students (id uuid PRIMARY KEY, guardian_id uuid NOT NULL REFERENCES guardians(id) ON DELETE CASCADE, nickname text NOT NULL CHECK(char_length(nickname) BETWEEN 1 AND 40), grade integer NOT NULL CHECK(grade BETWEEN 0 AND 12), curriculum text NOT NULL, created_at timestamptz DEFAULT now());
+CREATE TABLE IF NOT EXISTS practice (id uuid PRIMARY KEY, student_id uuid NOT NULL REFERENCES students(id) ON DELETE CASCADE, subject text NOT NULL, lesson text NOT NULL, score integer NOT NULL CHECK(score>=0), total integer NOT NULL CHECK(total>0 AND score<=total), created_at timestamptz DEFAULT now());
+CREATE INDEX IF NOT EXISTS practice_student_idx ON practice(student_id,created_at DESC);
+CREATE INDEX IF NOT EXISTS session_expiry_idx ON sessions(expires_at);
