@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {hashPassword,verifyPassword,validPassword,validEmail,validPractice,digest,token} from './security.mjs';
+test('passwords are salted and verified',()=>{const p='long-test-password';const a=hashPassword(p),b=hashPassword(p);assert.notEqual(a,b);assert.ok(verifyPassword(p,a));assert.equal(verifyPassword('wrong',a),false);assert.equal(verifyPassword(p,'invalid'),false)});
+test('input constraints',()=>{assert.ok(validPassword('123456789012'));assert.ok(!validPassword('short'));assert.ok(validEmail('adult@example.org'));assert.ok(!validEmail('bad'));assert.ok(validPractice({subject:'math',lesson:'fractions',score:3,total:5}));assert.ok(!validPractice({subject:'math',lesson:'a',score:7,total:5}))});
+test('session tokens are random and hashed',()=>{let a=token(),b=token();assert.notEqual(a,b);assert.equal(digest(a).length,64)});
